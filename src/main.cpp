@@ -18,7 +18,7 @@ int main(int argc, const char * argv[]) {
         vsb->update(9, 4, 4);
         vsb->update(9, 5, 5);
         vsb->update(9, 6, 6);
-        vsb->update(9, 7, 6);
+        vsb->update(9, 7, 7);
         vsb->update(9, 8, 8);
         vsb->update(4, 7, 1);
         vsb->update(4, 8, 2);
