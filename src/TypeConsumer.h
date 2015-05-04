@@ -58,19 +58,33 @@ namespace OpenSudoku {
         std::string title;
         int state;
         BoardSize boardSize;
+        int solutionCount{0};
+        bool dev_null;
         
     public:
         
-        explicit ConsoleConsumer(const char* title, BoardSize boardSize) : title(title),boardSize(boardSize) {}
+        explicit ConsoleConsumer(const char* title, BoardSize boardSize, bool dev_null = false)
+        : title(title),boardSize(boardSize), dev_null(dev_null) {}
+        
+        int solutionsCount() const
+        {
+            return solutionCount;
+        }
         
         void start()
         {
             state = 0;
+            if (dev_null) {
+                return;
+            }
             std::cout << title;
         }
         
         bool consume(int& val)
         {
+            if (dev_null) {
+                return true;
+            }
             if (0 == (state++ % boardSize)) {
                 std::cout << std::endl;
             }
@@ -80,6 +94,10 @@ namespace OpenSudoku {
         
         void done()
         {
+            ++solutionCount;
+            if (dev_null) {
+                return;
+            }
             std::cout << std::endl;
         }
     };

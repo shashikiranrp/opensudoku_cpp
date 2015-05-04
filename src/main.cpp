@@ -33,8 +33,9 @@ int main(int argc, const char * argv[]) {
         frs.printResults();
         std::cout << (frs.sudokuBoard.varientPreserved() ? "GOOD BOARD" : "BAD BOARD") << std::endl;
         os::LCFBacktrack<os::BoardSize::NINE> lcfBt;
-        os::ConsoleConsumer cConsumer = os::ConsoleConsumer("Sudoku Board", os::BoardSize::NINE);
-        lcfBt.doLCFBacktrack(frs, cConsumer);
+        os::ConsoleConsumer cConsumer = os::ConsoleConsumer("Sudoku Board", os::BoardSize::NINE ,true);
+        lcfBt.doLCFBacktrack(frs, cConsumer, 500);
+        std::cout << "Total solutions: " << cConsumer.solutionsCount() <<  std::endl;
         delete vsb;
         return 0;
     } catch (OpenSudoku::SudokuException& exp) {

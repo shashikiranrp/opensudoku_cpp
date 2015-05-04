@@ -18,6 +18,7 @@ namespace OpenSudoku {
         BoardSize boardSize = Size;
         LimitedNatSet<Size> possibilities;
         bool fonApplied;
+        int *possibilityArray = nullptr;
         
     public:
         explicit VoidBox(const int row, const int column) :
@@ -72,9 +73,25 @@ namespace OpenSudoku {
             return this->possibilities.size();
         }
         
+        void getReadyForConcreteAnalysis()
+        {
+            if (nullptr != possibilityArray) {
+                delete possibilityArray;
+            }
+            int *ptr = possibilityArray = new int[getPossibilityCount()];
+            for (auto& ele : possibilities.to_vector()) {
+                *ptr++ = ele;
+            }
+        }
+
         int getNthPossibility(size_t n) const
         {
-            return this->possibilities.to_vector()[n];
+            return possibilities.to_vector()[n];
+        }
+
+        int getNthPossibilityForLCFBacktrack(size_t n) const
+        {
+            return possibilityArray[n];
         }
         
         LimitedNatSet<Size> fonCP_AI(VirtualSudokuBoard& vsb)

@@ -7,7 +7,7 @@ link:	compile
 	clang++ -stdlib=libc++ -std=c++11 *o -o sudoku
 
 run: link
-	./sudoku
+	time ./sudoku
 
 clean:
 	rm -f *gch *o sudoku

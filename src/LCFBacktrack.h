@@ -43,6 +43,7 @@ namespace OpenSudoku {
             size_t *ptr = this->lenVector;
             for (auto& ele : voidBoxes) {
                 *ptr++ = ele.getPossibilityCount();
+                ele.getReadyForConcreteAnalysis();
             }
             this->stateIntialized = true;
         }
@@ -58,7 +59,7 @@ namespace OpenSudoku {
             int row{currentVB.getMyRow()};
             int column{currentVB.getMyColumn()};
             int square{currentVB.getMySquare()};
-            int value{currentVB.getNthPossibility(this->indexVector[this->currentVoid])};
+            int value{currentVB.getNthPossibilityForLCFBacktrack(this->indexVector[this->currentVoid])};
             return (!sudokuBoard.isInRow(value, row))
             && (!sudokuBoard.isInColumn(value, column))
             && (!sudokuBoard.isInSquare(value, square));
@@ -69,7 +70,7 @@ namespace OpenSudoku {
             VoidBox<Size>& currentVB = currentVoidBox();
             sudokuBoard.update(currentVB.getMyRow(),
                                currentVB.getMyColumn(),
-                               currentVB.getNthPossibility(this->indexVector[this->currentVoid]));
+                               currentVB.getNthPossibilityForLCFBacktrack(this->indexVector[this->currentVoid]));
         }
         
         void unsetCurrentVoid()
@@ -81,7 +82,7 @@ namespace OpenSudoku {
         void continueToNextLevel()
         {
             if (currentVoid == (voidBoxes.size() - 1)) {
-                if (solutionIndex++ < maxResults) {
+                if (0 == maxResults || solutionIndex++ < maxResults) {
                     sudokuBoard.consumeBoard(solutionConsumer);
                     backTrack();
                 } else {
@@ -128,7 +129,7 @@ namespace OpenSudoku {
     class LCFBacktrack {
         
     public:
-        void doLCFBacktrack(FonResult<Size>& fonResult, TypeConsumer<int>& solutionConsumer) const
+        void doLCFBacktrack(FonResult<Size>& fonResult, TypeConsumer<int>& solutionConsumer, int maxSolutions) const
         {
             /**
              * Check back track is needed.
@@ -161,7 +162,7 @@ namespace OpenSudoku {
             std::sort(lcfVoidBoxVector.begin(), lcfVoidBoxVector.end(), lcfComparator);
             
             SudokuBackTrack<Size> sbt(fonResult.sudokuBoard, lcfVoidBoxVector, solutionConsumer);
-            sbt.consumeResults(100);
+            sbt.consumeResults(maxSolutions);
         }
         
     };
