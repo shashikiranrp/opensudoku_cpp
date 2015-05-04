@@ -30,20 +30,22 @@ namespace OpenSudoku {
                                     + std::to_string(dim))) {}
     };
     
-    class ConcreteNotNeeded : public SudokuException {
+    class BacktrackNotNeeded : public SudokuException {
         
     public:
-        ConcreteNotNeeded() :
-        SudokuException(std::string("ConcreteNotNeeded: Current status of VirtualSudokuBoard doesn't need Concrete Analysis")) {}
+        BacktrackNotNeeded() :
+        SudokuException(std::string("BacktrackNotNeeded: Current status of VirtualSudokuBoard doesn't need Backtrack Analysis")) {}
     };
     
     class NomorePossibility : public SudokuException {
         
     public:
-        NomorePossibility(int square) :
-        SudokuException(std::string("NomorePossibility: Possibility list is empty for square ")
-                        + std::to_string(square)
-                        + std::string(".")) {}
+        NomorePossibility(int row, int column) :
+        SudokuException(std::string("NomorePossibility: Possibility list is empty for box at (row, column) => (")
+                        + std::to_string(row)
+                        + std::string(", ")
+                        + std::to_string(column)
+                        + std::string(").")) {}
     };
 }
 

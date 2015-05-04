@@ -5,6 +5,7 @@
 #include "LimitedNaturalNumberSet.h"
 #include "VoidBox.h"
 #include "FonAnalysis.h"
+#include "LCFBacktrack.h"
 
 namespace os = OpenSudoku;
 
@@ -31,6 +32,9 @@ int main(int argc, const char * argv[]) {
         os::FonResult<os::BoardSize::NINE> frs = fon.doFon(*vsb);
         frs.printResults();
         std::cout << (frs.sudokuBoard.varientPreserved() ? "GOOD BOARD" : "BAD BOARD") << std::endl;
+        os::LCFBacktrack<os::BoardSize::NINE> lcfBt;
+        os::ConsoleConsumer cConsumer = os::ConsoleConsumer("Sudoku Board", os::BoardSize::NINE);
+        lcfBt.doLCFBacktrack(frs, cConsumer);
         delete vsb;
         return 0;
     } catch (OpenSudoku::SudokuException& exp) {

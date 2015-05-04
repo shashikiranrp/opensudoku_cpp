@@ -1,3 +1,4 @@
+
 #ifndef __Sudoku__Common__
 #define __Sudoku__Common__
 
@@ -25,12 +26,8 @@ namespace OpenSudoku {
     template<class T>
     void printVector(const std::vector<T>& vec)
     {
-        int state = 0;
         for(auto& ele : vec) {
-            if (0 == (state++ % 9)) {
-                std::cout << std::endl;
-            }
-            std::cout << ele << " ";
+            std::cout << ele << std::endl;
         }
     }
 }

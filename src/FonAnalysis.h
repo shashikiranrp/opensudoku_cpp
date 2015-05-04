@@ -68,7 +68,7 @@ namespace OpenSudoku {
         void updateFonVoid(VirtualSudokuBoard& vsb, VoidBox<Size>& vb) const
         {
             vb.setFonApplied(true);
-            vsb.update(vb.getMyRow(), vb.getMyColumn(), vb.getNthPossibility(1));
+            vsb.update(vb.getMyRow(), vb.getMyColumn(), vb.getNthPossibility(0));
         }
         
     public:

@@ -72,16 +72,16 @@ namespace OpenSudoku {
             return this->possibilities.size();
         }
         
-        int getNthPossibility(int n) const
+        int getNthPossibility(size_t n) const
         {
-            return this->possibilities.to_vector()[n - 1];
+            return this->possibilities.to_vector()[n];
         }
         
         LimitedNatSet<Size> fonCP_AI(VirtualSudokuBoard& vsb)
         
         {
             LimitedNatSetConsumer<Size> setConsumer = LimitedNatSetConsumer<Size>();
-
+            
             vsb.consumeRow(rowIndex, setConsumer);
             LimitedNatSet<Size> rowSet = SUDOKU_UNIVERSAL_SET - setConsumer.getContents();
             
@@ -93,7 +93,15 @@ namespace OpenSudoku {
             
             return (rowSet & columnSet & squareSet);
         }
+        
+        friend std::ostream& operator<<(std::ostream& os, const VoidBox<Size>& vb)
+        {
+            os << vb.possibilities;
+            return os;
+        }
     };
+    
+    
 }
 
 #endif /* defined(__Sudoku__VoidBox__) */
