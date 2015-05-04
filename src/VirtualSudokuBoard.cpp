@@ -31,7 +31,7 @@ namespace OpenSudoku {
     }
     
     template<class T>
-    T& VirtualSudokuBoard::iterateOverBoard(T& intialVal, std::function<T&(T&, int, int, int)> reducer) const
+    T& VirtualSudokuBoard::iterateOverBoard(T& intialVal, std::function<T&(T&, int, int, int)>& reducer) const
     {
         T& result = intialVal;
         for(int row = 1; row <= this->boardSize; ++row) {
@@ -43,7 +43,7 @@ namespace OpenSudoku {
     }
     
     template<class T>
-    T& VirtualSudokuBoard::iterateOverRow(int row, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const throw(OpenSudoku::InvalidDimension)
+    T& VirtualSudokuBoard::iterateOverRow(int row, T& intialVal, std::function<T&(T&, int, int, int)>& reducer) const throw(OpenSudoku::InvalidDimension)
     {
         if (NOT(VAL_IN_RANGE(row, 1, this->boardSize))) {
             throw InvalidDimension(row);
@@ -56,7 +56,7 @@ namespace OpenSudoku {
     }
     
     template<class T>
-    T& VirtualSudokuBoard::iterateOverColumn(int column, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const throw(OpenSudoku::InvalidDimension)
+    T& VirtualSudokuBoard::iterateOverColumn(int column, T& intialVal, std::function<T&(T&, int, int, int)>& reducer) const throw(OpenSudoku::InvalidDimension)
     {
         if (NOT(VAL_IN_RANGE(column, 1, this->boardSize))) {
             throw InvalidDimension(column);
@@ -69,7 +69,7 @@ namespace OpenSudoku {
     }
     
     template<class T>
-    T& VirtualSudokuBoard::iterateOverSquare(int square, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const throw(OpenSudoku::InvalidDimension)
+    T& VirtualSudokuBoard::iterateOverSquare(int square, T& intialVal, std::function<T&(T&, int, int, int)>& reducer) const throw(OpenSudoku::InvalidDimension)
     {
         if (this->boardSize != NINE) {
             throw SudokuException("iterateOverSquare makes sense for board with size 9");

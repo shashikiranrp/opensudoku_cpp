@@ -18,16 +18,16 @@ namespace OpenSudoku {
     protected:
         // iterating internal messages
         template<class T>
-        T& iterateOverRow(int row, T&, std::function<T&(T&, int, int, int)>) const throw(InvalidDimension);
+        T& iterateOverRow(int row, T&, std::function<T&(T&, int, int, int)>&) const throw(InvalidDimension);
         
         template<class T>
-        T& iterateOverColumn(int column, T&, std::function<T&(T&, int, int, int)>) const throw(InvalidDimension);
+        T& iterateOverColumn(int column, T&, std::function<T&(T&, int, int, int)>&) const throw(InvalidDimension);
 
         template<class T>
-        T& iterateOverSquare(int square, T&, std::function<T&(T&, int, int, int)>) const throw(InvalidDimension);
+        T& iterateOverSquare(int square, T&, std::function<T&(T&, int, int, int)>&) const throw(InvalidDimension);
         
         template<class T>
-        T& iterateOverBoard(T&, std::function<T&(T&, int, int, int)>) const;
+        T& iterateOverBoard(T&, std::function<T&(T&, int, int, int)>&) const;
         
     public:
         VirtualSudokuBoard() = delete; // no default constructor
