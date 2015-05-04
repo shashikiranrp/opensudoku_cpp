@@ -22,7 +22,7 @@ namespace OpenSudoku {
     static std::function<bool(bool)> NOT =
     [](bool val) -> bool { return !val; };
     
-    static LimitedNatSet<NINE> SUDOKU_UNIVERSAL_SET = LimitedNatSet<9>(true);
+    static LimitedNatSet<NINE> SUDOKU_UNIVERSAL_SET = LimitedNatSet<NINE>(true);
     template<class T>
     void printVector(const std::vector<T>& vec)
     {
