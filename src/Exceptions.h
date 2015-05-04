@@ -47,6 +47,13 @@ namespace OpenSudoku {
                         + std::to_string(column)
                         + std::string(").")) {}
     };
+    
+    class VarientNotPreserved : public SudokuException {
+        
+    public:
+        VarientNotPreserved() :
+        SudokuException("can't solve a board with varients not preserved!") {}
+    };
 }
 
 #endif /* defined(__Sudoku__Exceptions__) */

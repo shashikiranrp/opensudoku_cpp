@@ -150,6 +150,13 @@ namespace OpenSudoku {
             }
             
             /**
+             * Check varient preserved
+             */
+            if (!fonResult.sudokuBoard.varientPreserved()) {
+                throw VarientNotPreserved();
+            }
+            
+            /**
              * Check back track is possible.
              */
             auto noPossibilityBoxPred = [](VoidBox<Size>& vb) -> bool
