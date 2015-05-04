@@ -28,6 +28,13 @@ namespace OpenSudoku {
             boxIndex = VirtualSudokuBoard::boxIndex(boardSize, rowIndex, columnIndex);
         }
         
+        ~VoidBox()
+        {
+            if (nullptr != possibilityArray) {
+                delete []possibilityArray;
+            }
+        }
+        
         int getMyBox() const
         {
             return boxIndex;
@@ -76,7 +83,7 @@ namespace OpenSudoku {
         void getReadyForConcreteAnalysis()
         {
             if (nullptr != possibilityArray) {
-                delete possibilityArray;
+                delete []possibilityArray;
             }
             int *ptr = possibilityArray = new int[getPossibilityCount()];
             for (auto& ele : possibilities.to_vector()) {

@@ -24,7 +24,7 @@ namespace OpenSudoku {
         size_t maxResults{}, solutionIndex{};
         int currentVoid{};
         bool stateIntialized{false};
-        size_t *indexVector{}, *lenVector{};
+        size_t *indexVector{nullptr}, *lenVector{nullptr};
         bool stopFlag{};
         TypeConsumer<int>& solutionConsumer;
     protected:
@@ -121,6 +121,17 @@ namespace OpenSudoku {
                 } else {
                     backTrack();
                 }
+            }
+        }
+        
+        ~SudokuBackTrack()
+        {
+            if (nullptr != indexVector) {
+                delete []indexVector;
+            }
+            
+            if (nullptr != lenVector) {
+                delete []lenVector;
             }
         }
     };
