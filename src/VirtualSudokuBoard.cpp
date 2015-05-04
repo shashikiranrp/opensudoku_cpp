@@ -43,7 +43,7 @@ namespace OpenSudoku {
     }
     
     template<class T>
-    T& VirtualSudokuBoard::iterateOverRow(int row, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const
+    T& VirtualSudokuBoard::iterateOverRow(int row, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const throw(OpenSudoku::InvalidDimension)
     {
         if (NOT(VAL_IN_RANGE(row, 1, this->boardSize))) {
             throw InvalidDimension(row);
@@ -56,7 +56,7 @@ namespace OpenSudoku {
     }
     
     template<class T>
-    T& VirtualSudokuBoard::iterateOverColumn(int column, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const
+    T& VirtualSudokuBoard::iterateOverColumn(int column, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const throw(OpenSudoku::InvalidDimension)
     {
         if (NOT(VAL_IN_RANGE(column, 1, this->boardSize))) {
             throw InvalidDimension(column);
@@ -69,7 +69,7 @@ namespace OpenSudoku {
     }
     
     template<class T>
-    T& VirtualSudokuBoard::iterateOverSquare(int square, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const
+    T& VirtualSudokuBoard::iterateOverSquare(int square, T& intialVal, std::function<T&(T&, int, int, int)> reducer) const throw(OpenSudoku::InvalidDimension)
     {
         if (this->boardSize != NINE) {
             throw SudokuException("iterateOverSquare makes sense for board with size 9");
@@ -96,7 +96,7 @@ namespace OpenSudoku {
         return iterateOverBoard(count, ZERO_VALUE_COUNTER);
     }
     
-    int VirtualSudokuBoard::getEntry(int row, int col) const
+    int VirtualSudokuBoard::getEntry(int row, int col) const throw(OpenSudoku::InvalidDimension)
     {
         if (NOT(VAL_IN_RANGE(row, 1, this->boardSize))) {
             throw InvalidDimension(row);
@@ -107,7 +107,7 @@ namespace OpenSudoku {
         return this->board[row - 1][col - 1];
     }
     
-    void VirtualSudokuBoard::consumeRow(int row, TypeConsumer<int>& consumer) const
+    void VirtualSudokuBoard::consumeRow(int row, TypeConsumer<int>& consumer) const throw(OpenSudoku::InvalidDimension)
     {
         int count = 0;
         std::function<int&(int&, int,int,int)> consumerWrapper =
@@ -123,7 +123,7 @@ namespace OpenSudoku {
         consumer.done();
     }
     
-    void VirtualSudokuBoard::consumeColumn(int col, TypeConsumer<int>& consumer) const
+    void VirtualSudokuBoard::consumeColumn(int col, TypeConsumer<int>& consumer) const throw(OpenSudoku::InvalidDimension)
     {
         int count = 0;
         std::function<int&(int&, int,int,int)> consumerWrapper =
@@ -139,7 +139,7 @@ namespace OpenSudoku {
         consumer.done();
     }
     
-    void VirtualSudokuBoard::consumeSquare(int square, TypeConsumer<int>& consumer) const
+    void VirtualSudokuBoard::consumeSquare(int square, TypeConsumer<int>& consumer) const throw(OpenSudoku::InvalidDimension)
     {
         int count = 0;
         std::function<int&(int&, int,int,int)> consumerWrapper =
@@ -171,7 +171,7 @@ namespace OpenSudoku {
         consumer.done();
     }
     
-    bool VirtualSudokuBoard::isInRow(int ele, int row) const
+    bool VirtualSudokuBoard::isInRow(int ele, int row) const throw(OpenSudoku::InvalidDimension)
     {
         bool result = false;
         std::function<bool&(bool&,int,int,int)> elementFinder =
@@ -182,7 +182,7 @@ namespace OpenSudoku {
         return iterateOverRow(row, result, elementFinder);
     }
     
-    bool VirtualSudokuBoard::isInColumn(int ele, int column) const
+    bool VirtualSudokuBoard::isInColumn(int ele, int column) const throw(OpenSudoku::InvalidDimension)
     {
         bool result = false;
         std::function<bool&(bool&,int,int,int)> elementFinder =
@@ -193,7 +193,7 @@ namespace OpenSudoku {
         return iterateOverColumn(column, result, elementFinder);
     }
     
-    bool VirtualSudokuBoard::isInSquare(int ele, int square) const
+    bool VirtualSudokuBoard::isInSquare(int ele, int square) const throw(OpenSudoku::InvalidDimension)
     {
         bool result = false;
         std::function<bool&(bool&,int,int,int)> elementFinder =
@@ -260,7 +260,7 @@ namespace OpenSudoku {
     }
     
     // Mutable methods
-    void VirtualSudokuBoard::update(int row, int col, int ele)
+    void VirtualSudokuBoard::update(int row, int col, int ele) throw(OpenSudoku::InvalidDimension, OpenSudoku::InvalidBoxEntry)
     {
         if (NOT(VAL_IN_RANGE(row, 1, this->boardSize))) {
             throw InvalidDimension(row);
@@ -275,12 +275,12 @@ namespace OpenSudoku {
         this->board[row - 1][col - 1] = ele;
     }
     
-    void VirtualSudokuBoard::clear(int row, int col)
+    void VirtualSudokuBoard::clear(int row, int col) throw(OpenSudoku::InvalidDimension)
     {
         this->update(row, col, 0);
     }
     
-    void VirtualSudokuBoard::clearRow(int row)
+    void VirtualSudokuBoard::clearRow(int row) throw(OpenSudoku::InvalidDimension)
     {
         int count = 0;
         std::function<int&(int&, int, int, int)> rowConsumer =
@@ -292,7 +292,7 @@ namespace OpenSudoku {
         iterateOverRow(row, count, rowConsumer);
     }
     
-    void VirtualSudokuBoard::clearColumn(int col)
+    void VirtualSudokuBoard::clearColumn(int col) throw(OpenSudoku::InvalidDimension)
     {
         int count = 0;
         std::function<int&(int&, int, int, int)> colConsumer =
@@ -317,7 +317,7 @@ namespace OpenSudoku {
     }
     
     // Static methods
-    int VirtualSudokuBoard::squareIndex(BoardSize& size, int row, int col)
+    int VirtualSudokuBoard::squareIndex(BoardSize& size, int row, int col) throw(SudokuException, InvalidDimension)
     {
         if (size != NINE) {
             throw SudokuException("square index makes sense for board with size 9");
@@ -344,7 +344,7 @@ namespace OpenSudoku {
         return square;
     }
     
-    int VirtualSudokuBoard::boxIndex(BoardSize& size, int row, int col)
+    int VirtualSudokuBoard::boxIndex(BoardSize& size, int row, int col) throw(SudokuException, InvalidDimension)
     {
         if (size != NINE) {
             throw SudokuException("box index makes sense for board with size 9");
