@@ -24,7 +24,7 @@ namespace OpenSudoku {
         int state;
         BoardSize boardSize;
         int solutionCount{0};
-        bool dev_null;
+        bool dev_null, first_consume{false};
         std::ostream& out;
         
     public:

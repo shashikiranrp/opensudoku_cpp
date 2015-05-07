@@ -18,7 +18,7 @@ namespace OpenSudoku {
     int interact(std::istream& in = std::cin, std::ostream& out = std::cout, std::ostream& err = std::cerr)
     {
         int status{0};
-        StreamConsumer consumer("Sudoku Board", Size, false, out);
+        StreamConsumer consumer(INTERACT_VERBOSE ? "Sudoku Board" : "", Size, false, out);
         Fon<Size> fon;
         LCFBacktrack<Size> lcfBackTrack;
         while (true) {
@@ -37,9 +37,13 @@ namespace OpenSudoku {
                 }
                 
                 if (nextColumn == 1 && nextRow == Size + 1) {
-                    out << "Problem:" << std::endl;
-                    vsbPtr->consumeBoard(consumer);
-                    out << "Solution: " << std::endl;
+                    if (INTERACT_VERBOSE) {
+                        out << "Problem:" << std::endl;
+                        vsbPtr->consumeBoard(consumer);
+                    }
+                    if (INTERACT_VERBOSE) {
+                        out << "Solution: " << std::endl;
+                    }
                     FonResult<Size> result = fon.doFon(*vsbPtr);
                     if (result.concreteFlag) {
                         lcfBackTrack.doLCFBacktrack(result, consumer, MAX_RESULTS);
