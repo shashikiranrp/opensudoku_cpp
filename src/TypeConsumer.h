@@ -18,53 +18,19 @@ namespace OpenSudoku {
         virtual void done() = 0;
     };
     
-    template<class T>
-    class VectorTypeConsumer : public TypeConsumer<T> {
-    private:
-        std::vector<T> sink;
-    public:
-        VectorTypeConsumer()
-        {
-            this->sink = std::vector<T>();
-        }
-        
-        void start()
-        {
-            this->sink.clear();
-        }
-        
-        bool consume(T& val)
-        {
-            this->sink.push_back(val);
-            return true;
-        }
-        
-        void done() {}
-        
-        std::vector<T> getContents() const
-        {
-            return this->sink;
-        }
-        
-        std::vector<T>& getContentsReference() const
-        {
-            return this->sink;
-        }
-    };
-    
-    class ConsoleConsumer : public TypeConsumer<int> {
-        
+    class StreamConsumer : public TypeConsumer<int> {
     private:
         std::string title;
         int state;
         BoardSize boardSize;
         int solutionCount{0};
         bool dev_null;
+        std::ostream& out;
         
     public:
         
-        explicit ConsoleConsumer(const char* title, BoardSize boardSize, bool dev_null = false)
-        : title(title),boardSize(boardSize), dev_null(dev_null) {}
+        StreamConsumer(const char* title, BoardSize boardSize, bool dev_null = false, std::ostream& out = std::cout)
+        : title(title),boardSize(boardSize), dev_null(dev_null), out(out) {}
         
         int solutionsCount() const
         {
@@ -77,7 +43,7 @@ namespace OpenSudoku {
             if (dev_null) {
                 return;
             }
-            std::cout << title;
+            out << title;
         }
         
         bool consume(int& val)
@@ -86,9 +52,9 @@ namespace OpenSudoku {
                 return true;
             }
             if (0 == (state++ % boardSize)) {
-                std::cout << std::endl;
+                out << std::endl;
             }
-            std::cout << val << " ";
+            out << val << " ";
             return true;
         }
         
@@ -98,8 +64,17 @@ namespace OpenSudoku {
             if (dev_null) {
                 return;
             }
-            std::cout << std::endl;
+            out << std::endl;
         }
+        
+    };
+    
+    class ConsoleConsumer : public StreamConsumer {
+        
+        
+    public:
+        ConsoleConsumer(const char* title, BoardSize boardSize, bool dev_null = false)
+        : StreamConsumer(title, boardSize, dev_null) {}
     };
     
     template<BoardSize Size>
