@@ -42,9 +42,12 @@ namespace OpenSudoku {
                         vsbPtr->consumeBoard(consumer);
                     }
                     if (INTERACT_VERBOSE) {
-                        out << "Solution: " << std::endl;
+                        out << std::endl << "Solution: " << std::endl;
                     }
                     FonResult<Size> result = fon.doFon(*vsbPtr);
+                    if (INTERACT_VERBOSE) {
+                        result.printResults();
+                    }
                     if (result.concreteFlag) {
                         lcfBackTrack.doLCFBacktrack(result, consumer, MAX_RESULTS);
                     } else {

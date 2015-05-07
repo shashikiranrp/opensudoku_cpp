@@ -1,5 +1,4 @@
 #include <new>
-#include <iostream>
 #include <set>
 #include "VirtualSudokuBoard.h"
 #include "Exceptions.h"
