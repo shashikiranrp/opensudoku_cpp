@@ -1,7 +1,7 @@
 all: clean run
 
 compile: 
-	clang++ -stdlib=libc++ -std=c++11 -c *
+	clang++ -stdlib=libc++ -std=c++11 -c *.cpp
 
 link:	compile
 	clang++ -stdlib=libc++ -std=c++11 *o -o sudoku
